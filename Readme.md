@@ -19,6 +19,9 @@
 
 试用前，先安装依赖。
 
+执行 `install.bat` 安装依赖
+
+或者执行以下命令安装
 ``` cmd
 npm install puppeteer --save --registry=https://registry.npm.taobao.org
 npm install docx --save --registry=https://registry.npm.taobao.org
