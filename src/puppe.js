@@ -1,12 +1,5 @@
 //引入puppeteer
-var path = require('path');
-// var puppeteer;
-// if (process.pkg) {
-//     puppeteer = require(path.resolve(process.cwd(), 'puppeteer'));
-// } else {
-//     puppeteer = require('puppeteer');
-// }
-
+const path = require('path');
 const puppeteer = require('puppeteer');
 
 // 获取截图的区域
@@ -44,10 +37,10 @@ async function callback(browser, token) {
                 width: pos.width,
                 height: pos.height
             }
-        });
+        })
 
         //关闭Chromium
-        await browser.close();
+        await browser.close()
 
         return text
     } catch (error) {
