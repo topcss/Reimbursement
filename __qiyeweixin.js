@@ -110,31 +110,30 @@ async function main() {
     let dict = await getTemplates()
     for (const row of dict) {
         // 上月
-        let start_last_month = getTimes(1, 1),
-            end_last_month = getTimes(0, 1) - 1,
-            // 本月         
-            start_month = getTimes(0, 1), end_month = getTimes(-1, 1) - 1,
-            // 申请事项名称 及 模板id
-            name = row[0], template_id = row[1];
+        let startLastMonth = getTimes(1, 1), endLastMonth = getTimes(0, 1) - 1
+        // 本月
+        let startMonth = getTimes(0, 1), endMonth = getTimes(-1, 1) - 1
+        // 申请事项名称 及 模板id
+        let name = row[0], template_id = row[1];
 
         switch (name) {
             case '周末工作餐费津贴':
-                await parseData(start_last_month, end_last_month, template_id, '', '周末工作餐费津贴', data)
+                await parseData(startLastMonth, endLastMonth, template_id, '', '周末工作餐费津贴', data)
                 break;
             case '费用申请':
                 // 交通费
-                await parseData(start_last_month, end_last_month, template_id, '交通', '交通费', data)
+                await parseData(startLastMonth, endLastMonth, template_id, '交通', '交通费', data)
 
                 // 通讯费
-                await parseData(start_month, end_month, template_id, '通讯', '通讯费', data)
+                await parseData(startMonth, endMonth, template_id, '通讯', '通讯费', data)
 
                 // 商务招待费
-                await parseData(start_last_month, end_last_month, template_id, '招待', '商务招待费', data)
+                await parseData(startLastMonth, endLastMonth, template_id, '招待', '商务招待费', data)
                 break;
             case '误餐补助申请':
                 data['误餐费明细表'] = []
 
-                await parseData(start_last_month, end_last_month, template_id, '', '误餐补助申请', data)
+                await parseData(startLastMonth, endLastMonth, template_id, '', '误餐补助申请', data)
                 break;
         }
     }
