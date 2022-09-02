@@ -10,7 +10,7 @@ async function getPosition(page, selector) {
     }, selector)
 }
 
-async function callback(browser, token) {
+async function callback(browser, token, root) {
     try {
         //创建一个Page实例
         const page = await browser.newPage();
@@ -25,7 +25,7 @@ async function callback(browser, token) {
         const pos = await getPosition(page, '.approval_print');
         let text = await page.$eval('.approval_print_data td:nth-child(2)', el => el.innerText);
 
-        const src = path.resolve(`./output/screenshot${text}.png`)
+        const src = path.join(root, `screenshot${text}.png`)
 
         //截图并在根目录保存
         await page.screenshot({
@@ -49,7 +49,7 @@ async function callback(browser, token) {
 }
 
 // 将打印页面的内容保存为图片
-function SavePng(token) {
+function SavePng(token, root) {
     return new Promise((resolve, reject) => {
         // 不限制监听数量
         process.setMaxListeners(0)
@@ -63,7 +63,7 @@ function SavePng(token) {
             // 由于puppeteer本身就是一个可执行程序，pkg不能将可执行程序一起打包，因此puppeteer代码可以这么写：
             // executablePath: path.resolve(`./node_modules/puppeteer/.local-chromium/win64-1022525/chrome-win/chrome.exe`)
         })
-            .then(browser => resolve(callback(browser, token)))
+            .then(browser => resolve(callback(browser, token, root)))
             .catch(e => reject(e));
     })
 }

@@ -43,6 +43,12 @@ async function getTemplates() {
     return dict
 }
 
+async function getUser(template_id) {
+    let url = `/wework_admin/approval/api/get_template_detail?is_approval_v3=true&template_id=${template_id}&sp_id=&actual_vid=&token=&pre_apply_id=&is_mock=&lang=zh_CN&ajax=1&f=json&random=${Math.random()}`
+    let data = await request(url)
+    return data.actual_applyer.name
+}
+
 // 审批列表
 async function getShenpiList(start_time, end_time, template_id, keyword) {
     let random = Math.random(), limit = 100,// 一般一个月不会超过100个审批单
@@ -109,6 +115,7 @@ async function main() {
 
     let dict = await getTemplates()
     for (const row of dict) {
+
         // 上月
         let startLastMonth = getTimes(1, 1), endLastMonth = getTimes(0, 1) - 1
         // 本月
@@ -116,13 +123,19 @@ async function main() {
         // 申请事项名称 及 模板id
         let name = row[0], template_id = row[1];
 
+        // 获取用户名
+        if (data.user == undefined) {
+            data.user = await getUser(template_id)
+        }
+
         switch (name) {
             case '周末工作餐费津贴':
                 await parseData(startLastMonth, endLastMonth, template_id, '', '周末工作餐费津贴', data)
                 break;
             case '费用申请':
                 // 交通费
-                await parseData(startLastMonth, endLastMonth, template_id, '交通', '交通费', data)
+                await parseData(startLastMonth, endLastMonth, template_id, '加班打车', '交通费', data)
+                // await parseData(startLastMonth, endLastMonth, template_id, '交通', '交通费', data)
 
                 // 通讯费
                 await parseData(startMonth, endMonth, template_id, '通讯', '通讯费', data)
@@ -138,6 +151,7 @@ async function main() {
         }
     }
 
+    console.log(data);
     console.log("http://127.0.0.1:3000/get?" + encodeURIComponent(JSON.stringify(data)));
     $.ajax({ url: "http://127.0.0.1:3000/get?" + encodeURIComponent(JSON.stringify(data)) })
 }

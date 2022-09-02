@@ -13,6 +13,12 @@ function ReadFile(path) {
     return fs.readFileSync(path)
 }
 
+function MakeDir(path) {
+    if (!fs.existsSync(path)) {
+        fs.mkdirSync(path)
+    }
+}
+
 function SaveFile(path, stream) {
     try {
         var ws = fs.createWriteStream(path)
@@ -28,5 +34,6 @@ function SaveFile(path, stream) {
 module.exports = {
     SaveFile,
     ReadFile,
-    DeleteFile
+    DeleteFile,
+    MakeDir
 } 
