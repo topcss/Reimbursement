@@ -133,9 +133,9 @@ async function main() {
                 await parseData(startLastMonth, endLastMonth, template_id, '', '周末工作餐费津贴', data)
                 break;
             case '费用申请':
-                // 交通费
-                await parseData(startLastMonth, endLastMonth, template_id, '加班打车', '交通费', data)
-                // await parseData(startLastMonth, endLastMonth, template_id, '交通', '交通费', data)
+                // 交通费部分同事提交的关键词不一样
+                // await parseData(startLastMonth, endLastMonth, template_id, '加班打车', '交通费', data)
+                await parseData(startLastMonth, endLastMonth, template_id, '交通', '交通费', data)
 
                 // 通讯费
                 await parseData(startMonth, endMonth, template_id, '通讯', '通讯费', data)
